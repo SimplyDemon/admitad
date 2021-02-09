@@ -56,7 +56,7 @@ class immovableAdd {
 
 	function main( \WP_REST_Request $request ) {
 
-		if ( empty( $_FILES ) && ! is_array( $_FILES ) ) {
+		if ( empty( $_FILES ) || ! is_array( $_FILES ) ) {
 			wp_send_json_error( 'No files found' );
 		}
 
