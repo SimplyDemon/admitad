@@ -17,35 +17,43 @@ class immovableAdd {
 			'methods'  => 'POST',
 			'callback' => [ $this, 'main' ],
 			'args'     => [
-				'title'    => [
+				'title'         => [
 					'type'     => 'string',
 					'required' => true,
 				],
-				'typeId'   => [
+				'typeId'        => [
 					'type'     => 'integer',
 					'required' => true,
 				],
-				'area'     => [
+				'area'          => [
 					'type'     => 'integer',
 					'required' => true,
 				],
-				'liveArea' => [
+				'liveArea'      => [
 					'type'     => 'integer',
 					'required' => true,
 				],
-				'price'    => [
+				'price'         => [
 					'type'     => 'integer',
 					'required' => true,
 				],
-				'stage'    => [
+				'stage'         => [
 					'type'     => 'integer',
 					'required' => false,
 				],
-				'address'  => [
+				'address'       => [
 					'type'     => 'string',
 					'required' => true,
 				],
-				'cityId'   => [
+				'cityId'        => [
+					'type'     => 'integer',
+					'required' => true,
+				],
+				'immovable-add' => [
+					'type'     => 'string',
+					'required' => true,
+				],
+				'userId'        => [
 					'type'     => 'integer',
 					'required' => true,
 				],
@@ -57,11 +65,20 @@ class immovableAdd {
 	function main( \WP_REST_Request $request ) {
 
 		if ( empty( $_FILES ) || ! is_array( $_FILES ) ) {
-			wp_send_json_error( 'No files found' );
+			wp_safe_redirect( home_url( '?message=Нет файлов' ) );
+			exit();
 		}
 
+		$data = $request->get_params();
 
-		$data    = $request->get_params();
+		// Case for auth users
+		wp_set_current_user( $data['userId'] );
+
+		if ( ! wp_verify_nonce( sanitize_text_field( $data['immovable-add'] ), 'immovable-add-action' ) ) {
+			wp_safe_redirect( home_url( '?message=Не корректный нонс' ) );
+			exit();
+		}
+
 		$title   = sanitize_text_field( $data['title'] );
 		$address = sanitize_text_field( $data['address'] );
 
@@ -74,7 +91,8 @@ class immovableAdd {
 		], true );
 
 		if ( is_wp_error( $postID ) ) {
-			wp_send_json_error( $postID->get_error_message() );
+			wp_safe_redirect( home_url( '?message=' . $postID->get_error_message() ) );
+			exit();
 		} else {
 			wp_set_object_terms( $postID, $data['typeId'], 'immovable_type' );
 			update_field( 'area', $data['area'], $postID );
@@ -91,7 +109,8 @@ class immovableAdd {
 				$results[] = saveFilesToACF( $globalFiles, $fieldName, $postID );
 			}
 
-			wp_send_json_success( [ 'immovableId' => $postID ] );
+			wp_safe_redirect( home_url( '?message=Недвижимость успешно добавлена' ) );
+			exit();
 		}
 	}
 }

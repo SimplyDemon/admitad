@@ -1,5 +1,14 @@
 <h4>Добавить недвижимость</h4>
-<form method="post" enctype="multipart/form-data" action="<?= home_url( 'wp-json/sd/v1/immovable-add' ) ?>">
+<?php
+if ( isset( $_GET['message'] ) && ! empty( $_GET['message'] ) ) { ?>
+    <p class="font-weight-bold"><?= sanitize_text_field( $_GET['message'] ) ?></p>
+<?php } ?>
+<form method="post" enctype="multipart/form-data" action="<?= home_url( 'wp-json/sd/v1/immovable-add' ) ?>"
+      id="immovable-add">
+	<?php
+	wp_nonce_field( 'immovable-add-action', 'immovable-add' );
+	?>
+    <input type="hidden" name="userId" value="<?= get_current_user_id() ?>">
     <div class="form-group">
         <label for="title">Название</label>
         <input type="text" name="title" id="title" class="form-control" placeholder="Название" required>
