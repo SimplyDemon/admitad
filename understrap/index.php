@@ -52,6 +52,8 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 					<?php endwhile; ?>
 
+					<?php do_action( 'extraIndexData' ) ?>
+
 				<?php else : ?>
 
 					<?php get_template_part( 'loop-templates/content', 'none' ); ?>
