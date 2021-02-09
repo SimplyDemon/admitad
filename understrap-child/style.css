@@ -5,3 +5,7 @@ Version: 0.0.1
  */
 
 @import url("../understrap/style.css");
+
+.new-card {
+    padding: 10px;
+}
