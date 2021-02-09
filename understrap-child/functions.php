@@ -1,6 +1,12 @@
 <?php
 
 
+require_once 'Routes/immovableAdd.php';
+
+add_action( 'rest_api_init', function () {
+	new sd\routes\immovableAdd();
+} );
+
 add_action( 'wp_enqueue_scripts', 'themeStylesScripts' );
 function themeStylesScripts() {
 	wp_enqueue_style( 'child-theme-style', get_stylesheet_directory_uri() . '/style.css', null, filemtime( get_stylesheet_directory() . '/style.css' ) );
@@ -51,3 +57,16 @@ function extraIndexData() {
 	}
 }
 
+function immovableForm() {
+	$citiesArgs = [
+		'post_type'      => 'city',
+		'posts_per_page' => - 1,
+		'post_status'    => 'publish',
+	];
+
+	$immovableTypes = get_terms( 'immovable_type', [ 'hide_empty' => false ] );
+
+	$citiesPosts = new WP_Query( $citiesArgs );
+
+	include( locate_template( '/template-parts/forms/immovableAdd.php', false, false ) );
+}

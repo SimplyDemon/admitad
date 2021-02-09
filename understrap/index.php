@@ -59,7 +59,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 					<?php get_template_part( 'loop-templates/content', 'none' ); ?>
 
 				<?php endif; ?>
-
+				<?php do_action( 'immovableForm' ) ?>
             </main><!-- #main -->
 
             <!-- The pagination component -->
