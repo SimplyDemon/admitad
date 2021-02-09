@@ -1,7 +1,7 @@
 <?php
 $fields         = get_fields();
 $immovableTypes = get_the_terms( $post->ID, 'immovable_type' );
-wp_enqueue_script( 'theme-vendors-script', get_stylesheet_directory_uri() . '/js/util.js', null, filemtime( get_stylesheet_directory() . '/js/util.js' ), true );
+wp_enqueue_script( 'util-scripts', get_stylesheet_directory_uri() . '/js/util.js', null, filemtime( get_stylesheet_directory() . '/js/util.js' ), true );
 
 get_header();
 ?>
