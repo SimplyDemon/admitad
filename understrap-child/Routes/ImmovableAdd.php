@@ -5,7 +5,7 @@ namespace sd\routes;
 
 require_once get_stylesheet_directory() . '/helpers/saveFilesToACF.php';
 
-class immovableAdd {
+class ImmovableAdd {
 
 	function __construct() {
 		$this->registerRoute();

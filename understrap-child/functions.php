@@ -1,10 +1,10 @@
 <?php
 
 
-require_once 'Routes/immovableAdd.php';
+require_once 'Routes/ImmovableAdd.php';
 
 add_action( 'rest_api_init', function () {
-	new sd\routes\immovableAdd();
+	new sd\routes\ImmovableAdd();
 } );
 
 add_action( 'wp_enqueue_scripts', 'themeStylesScripts' );
